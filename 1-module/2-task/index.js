@@ -6,8 +6,10 @@ function print(text) {
 }
 
 /**
- * Эту функцию нужно поменять так,
- * чтобы функция sayHello работала корректно
+ * Функцию валидирует имя пользователя
+ * по следующему условию — имя не пустое, без пробелов, минимум 4 символа
+ * @param {string | null} name
+ * @returns {boolean}
  */
 function isValid(name) {
   return name !== null && name.length >= 4 && !name.includes(" ") || false;
