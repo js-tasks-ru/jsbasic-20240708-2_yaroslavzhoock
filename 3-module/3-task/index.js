@@ -2,7 +2,7 @@
  * Функция которая преобразует строки вида 'my-short-string' в 'myShortString'
  * Дефисы удаляются, а все слова после них получают заглавную букву
  * @param {string} str
- * @returns {string} — возвращает преобразованную строку
+ * @return {string} — возвращает преобразованную строку
  */
 function camelize(str) {
     return str
