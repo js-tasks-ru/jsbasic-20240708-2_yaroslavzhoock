@@ -3,7 +3,6 @@
  * @param {Array} arr — Массив друзей.
  * @return {Object} — Возвращает узел-элемент.
  */
-
 function makeFriendsList(friends) {
   const ul = document.createElement("ul");
 
