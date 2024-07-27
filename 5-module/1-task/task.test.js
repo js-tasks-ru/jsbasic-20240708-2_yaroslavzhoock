@@ -8,7 +8,7 @@ describe('5-module-1-task', () => {
 
     document.body.append(buttonElement);
 
-    hideSelf();
+    document.querySelector(".hide-self-button").onclick = hideSelf;
   });
 
   afterEach(() => {
