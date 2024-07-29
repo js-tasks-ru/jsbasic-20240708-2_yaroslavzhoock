@@ -1,3 +1,3 @@
 function toggleText() {
-  // ваш код...
+  text.previousElementSibling.onclick = _ => text.hidden = !text.hidden; 
 }
