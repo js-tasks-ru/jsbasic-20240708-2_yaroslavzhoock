@@ -7,8 +7,9 @@ describe('5-module-1-task', () => {
     buttonElement.className = 'hide-self-button';
 
     document.body.append(buttonElement);
-
+    
     hideSelf();
+
   });
 
   afterEach(() => {

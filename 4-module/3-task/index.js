@@ -10,9 +10,11 @@ function highlight(table) {
       if (td.dataset.available == "true") tr.classList.add("available");
       if (td.dataset.available == "false") tr.classList.add("unavailable");
 
-      !td.hasAttribute("data-available")
-        ? (tr.hidden = true)
-        : (tr.hidden = false);
+      // tr.hidden = !td.hasAttribute("data-available")
+      //   ? (tr.hidden = true)
+      //   : (tr.hidden = false);
+
+      tr.hidden = tr.hidden = !td.hasAttribute("data-available");
 
       if (td.innerHTML == "m") tr.classList.add("male");
       if (td.innerHTML == "f") tr.classList.add("female");
