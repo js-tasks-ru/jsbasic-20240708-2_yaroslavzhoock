@@ -1,3 +1,5 @@
 function toggleText() {
-  text.previousElementSibling.onclick = _ => text.hidden = !text.hidden; 
+  const btn = document.querySelector(".toggle-text-button");
+  const text = document.querySelector("#text");
+  btn.onclick = _ => text.hidden = !text.hidden; 
 }
