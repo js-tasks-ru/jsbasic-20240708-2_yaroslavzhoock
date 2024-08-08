@@ -20,7 +20,7 @@ export default class UserTable {
     this.elem = document.createElement("table");
     this.elem.insertAdjacentHTML(
       "afterbegin",
-      "<thead><tr><th>Имя</th><th>Возраст</th><th>Зарплата</th<th>Город</th><th></th></tr><tbody></tbody></thead>"
+      "<thead><tr><th>Имя</th><th>Возраст</th><th>Зарплата</th<th>Город</th><th></th></tr></thead><tbody></tbody>"
     );
 
     this.render();
