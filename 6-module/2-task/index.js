@@ -1,6 +1,5 @@
 import createElement from '../../assets/lib/create-element.js';
 
-
 export default class ProductCard {
   constructor(product) {
     this.product = product;
@@ -38,12 +37,12 @@ export default class ProductCard {
     this.elem.addEventListener("click", ({ target }) => {
       let btn = target.closest("button");
       if (btn) {
-        let product = btn.previousElementSibling.id;
-        let ce = new CustomEvent("product-add", {
-          detail: product,
-          bubbles: true
-        });
-        this.elem.dispatchEvent(ce);
+        this.elem.dispatchEvent(
+          new CustomEvent("product-add", {
+            detail: btn.previousElementSibling.id,
+            bubbles: true
+          })
+        );
       }
     });
   }
