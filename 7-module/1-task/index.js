@@ -6,11 +6,11 @@ export default class RibbonMenu {
     this.elem = createElement(
       `<div class="ribbon">
         <div class="ribbon__arrow ribbon__arrow_left ribbon__arrow_visible">
-          <img src="https://course-jsbasic.javascript.ru/assets/icons/angle-icon.svg" alt="icon">
+          <img src="/assets/images/icons/angle-icon.svg" alt="icon">
         </div>
         <nav class="ribbon__inner"></nav>
         <div class="ribbon__arrow ribbon__arrow_right ribbon__arrow_visible">
-          <img src="https://course-jsbasic.javascript.ru/assets/icons/angle-icon.svg" alt="icon">
+          <img src="/assets/images/icons/angle-icon.svg" alt="icon">
         </div>
       </div>`
     );
