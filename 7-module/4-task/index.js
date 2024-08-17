@@ -85,7 +85,7 @@ export default class StepSlider {
             this.sub("step-active").classList.remove("slider__step-active");
           this.steps.children[this.value].classList.add("slider__step-active");
 
-          document.dispatchEvent(
+          this.elem.dispatchEvent(
             new CustomEvent("slider-change", {
               detail: this.value,
               bubbles: true
