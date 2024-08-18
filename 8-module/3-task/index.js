@@ -38,7 +38,6 @@ export default class Cart {
   }
 
   getTotalPrice() {
-    // ваш код
     return this.cartItems.reduce(
       (totalPrice, item) => totalPrice + item.product.price * item.count,
       0
