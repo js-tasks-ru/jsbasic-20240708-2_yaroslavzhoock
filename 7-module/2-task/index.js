@@ -12,7 +12,7 @@ export default class Modal {
             </button>
             <h3 class="modal__title">Вот сюда нужно добавлять заголовок</h3>
           </div>
-          <div class="modal__body">A сюда нужно добавлять содержимое тела модального окна</div>
+          <div class="modal__body"></div>
         </div>
       </div>
     `);
@@ -57,6 +57,7 @@ export default class Modal {
   close() {
     // document.body.classList.toggle('is-modal-open'); // почему нельзя использовать toggle?
     document.body.classList.remove('is-modal-open');
+    this.elem.dispatchEvent(new CustomEvent("modal-close"));
     this.elem.remove();
   }
 }
