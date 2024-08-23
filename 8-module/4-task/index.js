@@ -21,7 +21,7 @@ export default class Cart {
           body: new FormData(document.querySelector(".cart-form"))
         });
 
-        if (response) {
+        if (response.ok) {
           this.modal.setTitle("Success!");
           this.modalBody
             .querySelector('button[type="submit"]')
@@ -29,7 +29,6 @@ export default class Cart {
 
           this.cartItems = [];
 
-          console.log(this.cartItems);
           this.cartIcon.update(this);
 
           this.modalBody.innerHTML = `<div class="modal__body-inner">
