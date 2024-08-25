@@ -1,12 +1,7 @@
 // import createElement from '../../assets/lib/create-element.js';
 
-// export default class Carousel {
-//   constructor(slides) {
-//     this.slides = slides;
-//   }
-// }
 
-export default  class Carousel {
+export default class Carousel {
   constructor(slides) {
     this.slides = slides;
     this.elem = document.createElement("div");
@@ -77,16 +72,15 @@ export default  class Carousel {
   }
 
   onClick() {
-    this.elem.addEventListener("product-add", (event) => {
-      console.log("Продукт добавлен в корзину", event.detail);
-    });
-
     this.elem.addEventListener("click", ({ target }) => {
       let btn = target.closest("button");
+
       if (btn) {
+        let id = btn.previousElementSibling.dataset.id;
+
         this.elem.dispatchEvent(
           new CustomEvent("product-add", {
-            detail: btn.previousElementSibling.dataset.id,
+            detail: id,
             bubbles: true
           })
         );

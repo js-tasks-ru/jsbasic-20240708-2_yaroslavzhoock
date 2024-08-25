@@ -42,6 +42,45 @@ export default class Cart {
     };
   }
 
+  addProduct(product) {
+
+    if (!product) {
+      return;
+    }
+
+    let cartItem = this.cartItems.find((item) => item.product.id == product.id);
+    
+    cartItem
+      ? cartItem.count++
+      : ((cartItem = {
+          product,
+          count: 1
+        }),
+        this.cartItems.push(cartItem)),
+      this.onProductUpdate(cartItem);
+  }
+
+  updateProductCount(productId, amount) {
+    let cartItem = this.cartItems.find((item) => item.product.id == productId);
+    cartItem.count += amount;
+
+    if (cartItem.count == 0)
+      this.cartItems.splice(this.cartItems.indexOf(cartItem), 1);
+
+    this.onProductUpdate(cartItem);
+  }
+
+  isEmpty() {
+    return this.cartItems.length === 0;
+  }
+
+  getTotalCount() {
+    return this.cartItems.reduce(
+      (totalSum, product) => totalSum + product.count,
+      0
+    );
+  }
+
   getTotalPrice() {
     return this.cartItems.reduce(
       (totalPrice, item) => totalPrice + item.product.price * item.count,
@@ -100,53 +139,6 @@ export default class Cart {
     </form>`);
   }
 
-  addProduct(product) {
-    if (!product) {
-      return;
-    }
-
-    let cartItem = this.cartItems.find((item) => item.product.id == product.id);
-    cartItem
-      ? cartItem.count++
-      : ((cartItem = {
-          product,
-          count: 1
-        }),
-        this.cartItems.push(cartItem)),
-      this.onProductUpdate(cartItem);
-  }
-
-  onProductUpdate({ product: e, count: t }) {
-    this.cartIcon.update(this);
-
-    this.modal &&
-      (this.cartItems.length != 0
-        ? (t == 0
-            ? this.modalBody
-                .querySelector(`[data-product-id="${e.id}"]`)
-                .remove()
-            : ((this.modalBody.querySelector(
-                `[data-product-id="${e.id}"] .cart-counter__count`
-              ).innerHTML = t),
-              (this.modalBody.querySelector(
-                `[data-product-id="${e.id}"] .cart-product__price`
-              ).innerHTML = "€" + (t * e.price).toFixed(2))),
-          (this.modalBody.querySelector(".cart-buttons__info-price").innerHTML =
-            "€" + this.getTotalPrice().toFixed(2)))
-        : this.modal.close());
-  }
-
-  getTotalCount() {
-    return this.cartItems.reduce(
-      (totalSum, product) => totalSum + product.count,
-      0
-    );
-  }
-
-  addEventListeners() {
-    this.cartIcon.elem.onclick = () => this.renderModal();
-  }
-
   renderModal() {
     this.modal = new Modal();
     this.modal.setTitle("Your order");
@@ -178,16 +170,29 @@ export default class Cart {
     this.modal.open();
   }
 
-  updateProductCount(productId, amount) {
-    let cartItem = this.cartItems.find((item) => item.product.id == productId);
-    cartItem.count += amount;
-    if (cartItem.count == 0)
-      this.cartItems.splice(this.cartItems.indexOf(cartItem), 1);
+  onProductUpdate({ product: e, count: t }) {
+    this.cartIcon.update(this);
 
-    this.onProductUpdate(cartItem);
+    this.modal &&
+      (this.cartItems.length != 0
+        ? (t == 0
+            ? this.modalBody
+                .querySelector(`[data-product-id="${e.id}"]`)
+                .remove()
+            : ((this.modalBody.querySelector(
+                `[data-product-id="${e.id}"] .cart-counter__count`
+              ).innerHTML = t),
+              (this.modalBody.querySelector(
+                `[data-product-id="${e.id}"] .cart-product__price`
+              ).innerHTML = "€" + (t * e.price).toFixed(2))),
+          (this.modalBody.querySelector(".cart-buttons__info-price").innerHTML =
+            "€" + this.getTotalPrice().toFixed(2)))
+        : this.modal.close());
   }
 
-  isEmpty() {
-    return this.cartItems.length === 0;
+  addEventListeners() {
+    this.cartIcon.elem.onclick = () => this.renderModal();
   }
+
+
 }

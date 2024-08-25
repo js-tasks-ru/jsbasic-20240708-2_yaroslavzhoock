@@ -3,24 +3,26 @@ import createElement from '../../assets/lib/create-element.js';
 export default class RibbonMenu {
   constructor(categories) {
     this.categories = categories;
+
+    this.render();
+    this.initRibbon();
+    this.value = "";
+  }
+
+  render() {
     this.elem = createElement(
       `<div class="ribbon">
-        <div class="ribbon__arrow ribbon__arrow_left ribbon__arrow_visible">
-          <img src="/assets/images/icons/angle-icon.svg" alt="icon">
+        <div class="ribbon__arrow ribbon__arrow_left">
+          <img src="https://course-jsbasic.javascript.ru/assets/icons/angle-icon.svg" alt="icon">
         </div>
         <nav class="ribbon__inner"></nav>
         <div class="ribbon__arrow ribbon__arrow_right ribbon__arrow_visible">
-          <img src="/assets/images/icons/angle-icon.svg" alt="icon">
+          <img src="https://course-jsbasic.javascript.ru/assets/icons/angle-icon.svg" alt="icon">
         </div>
       </div>`
     );
-    this.ribbonInner = this.elem.querySelector(".ribbon__inner");
-    this.render();
-    this.initRibbon();
-    this.onClick();
-  }
-  render() {
-    this.ribbonInner.insertAdjacentHTML(
+
+    this.sub("inner").insertAdjacentHTML(
       "afterbegin",
       this.categories
         .map(
@@ -32,19 +34,12 @@ export default class RibbonMenu {
   }
 
   initRibbon() {
-    let ribbonArrowLeft = this.elem.querySelector(".ribbon__arrow_left");
-    let ribbonArrowRight = this.elem.querySelector(".ribbon__arrow_right");
-    let links = this.elem.querySelectorAll("a");
-    let inner = this.ribbonInner;
-    links[0].classList.add("ribbon__item_active");
-    let selectedLink = links[0];
+    let selectedLink = this.elem.querySelectorAll("a")[0];
+    selectedLink.classList.add("ribbon__item_active");
 
-    ribbonArrowLeft.classList.toggle("ribbon__arrow_visible");
-
-    const scroll = (x, y = 0) => this.ribbonInner.scrollBy(x, y);
+    const scroll = (x, y = 0) => this.sub("inner").scrollBy(x, y);
 
     this.elem.onclick = ({ target }) => {
-      
       if (target.closest(".ribbon__arrow_left")) {
         scroll(-350);
       }
@@ -62,35 +57,42 @@ export default class RibbonMenu {
       }
     };
 
-    inner.onscroll = () => {
-      inner.scrollLeft
-        ? ribbonArrowLeft.classList.add("ribbon__arrow_visible")
-        : ribbonArrowLeft.classList.remove("ribbon__arrow_visible");
+    this.sub("inner").addEventListener("click", (e) => {
+      e.preventDefault();
+      
+      this.value = e.target.closest("a").dataset.id;
 
-      inner.scrollWidth - inner.scrollLeft - inner.clientWidth
-        ? ribbonArrowRight.classList.add("ribbon__arrow_visible")
-        : ribbonArrowRight.classList.remove("ribbon__arrow_visible");
-    };
-  }
-
-  onClick() {
-    this.elem.addEventListener("ribbon-select", (e) => {
-      console.log(
-        "три мышки слепых бегут за фермершей следом, которая хвосты отрубила им ножом кривым",
-        e.detail
+      this.sub("inner").dispatchEvent(
+        new CustomEvent("ribbon-select", {
+          detail: this.value,
+          bubbles: true
+        })
       );
     });
 
-    this.elem.addEventListener("click", ({ target }) => {
-      let link = target.closest("a");
-      if (link) {
-        this.elem.dispatchEvent(
-          new CustomEvent("ribbon-select", {
-            detail: link.dataset.id,
-            bubbles: true
-          })
-        );
-      }
-    });
+    this.sub("inner").onscroll = () => {
+      this.sub("inner").scrollLeft
+        ? this.sub("arrow_left").classList.add("ribbon__arrow_visible")
+        : this.sub("arrow_left").classList.remove("ribbon__arrow_visible");
+
+      this.sub("inner").scrollWidth -
+      this.sub("inner").scrollLeft -
+      this.sub("inner").clientWidth
+        ? this.sub("arrow_right").classList.add("ribbon__arrow_visible")
+        : this.sub("arrow_right").classList.remove("ribbon__arrow_visible");
+    };
+  }
+
+  // onClick() {
+  //   this.sub("inner").addEventListener("ribbon-select", (e) => {
+  //     console.log(
+  //       "три мышки слепых бегут за фермершей следом, которая хвосты отрубила им ножом кривым",
+  //       e.detail
+  //     );
+  //   });
+  // }
+
+  sub(ref) {
+    return this.elem.querySelector(`.ribbon__${ref}`);
   }
 }
