@@ -16,30 +16,14 @@ export default class ProductGrid {
   renderContent() {
     this.sub("inner").innerHTML = "";
 
-    for (let e of this.products) {
-      if (this.filters.noNuts && e.nuts) continue;
-      if (this.filters.vegeterianOnly && !e.vegeterian) continue;
-      if (this.filters.maxSpiciness && e.spiciness > this.filters.maxSpiciness) continue;
-      if (this.filters.category && e.category != this.filters.category) continue;
+    for (let product of this.products) {
+      if (this.filters.noNuts && product.nuts) continue;
+      if (this.filters.vegeterianOnly && !product.vegeterian) continue;
+      if (this.filters.maxSpiciness && product.spiciness > this.filters.maxSpiciness) continue;
+      if (this.filters.category && product.category != this.filters.category) continue;
 
-      this.sub("inner").append(
-        createElement(
-          `<div class="card">
-          <div class="card__top">
-            <img src="https://course-jsbasic.javascript.ru/assets/products/${
-              e.image
-            }" class="card__image" alt="product">
-              <span class="card__price">€${e.price.toFixed(2)}</span>
-          </div>
-          <div class="card__body">
-            <div class="card__title" id="${e.id}">${e.name}</div>
-            <button type="button" class="card__button">
-              <img src="https://course-jsbasic.javascript.ru/assets/icons/plus-icon.svg" alt="icon">
-            </button>
-          </div>
-        </div>`
-        )
-      );
+      let card = new ProductCard(product);
+      this.sub("inner").append(card.elem);
     }
   }
 
